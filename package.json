@@ -1,0 +1,29 @@
+{
+  "name": "local-resolver-registrar",
+  "version": "0.1.0",
+  "main": "js",
+  "types": "js",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "tsc",
+    "clean": "rm -rf js node_modules",
+    "test": "jest",
+    "build": "tsc"
+  },
+  "files": [
+    "js"
+  ],
+  "devDependencies": {
+    "@jolocom/native-utils-node": "^0.6.0",
+    "@jolocom/sdk-storage-typeorm": "^2.0.8",
+    "@types/jest": "^24.0.23",
+    "did-resolver": "2.0.0",
+    "jest": "^24.9.0",
+    "jolocom-lib": "^5.0.4",
+    "sqlite3": "^5.0.0",
+    "ts-jest": "^24.1.0",
+    "typeorm": "^0.2.25",
+    "typescript": "^3.7.2"
+  },
+  "dependencies": {}
+}

@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "lib": [
+      "es2015", "dom"
+    ],
+    "noImplicitAny": false,
+    "declaration": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "outDir": "js",
+    "rootDir": "ts"
+  },
+  "exclude": [
+    "tests",
+    "js"
+  ]
+}
