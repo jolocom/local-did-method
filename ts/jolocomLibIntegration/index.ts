@@ -21,6 +21,7 @@ export class LocalDidMethod implements IDidMethod {
   ) {
     this.db = db
     this.resolver = new LocalResolver(this.db, validateEvents)
+    //@ts-ignore Update the definition on the lib to return an Identity on encounter
     this.registrar = new LocalRegistrar(this.db)
   }
 

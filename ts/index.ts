@@ -3,8 +3,6 @@ import { InternalDb } from "./db";
 export { InternalDb } from './db'
 import { JolocomLib } from 'jolocom-lib'
 
-console.log(JolocomLib)
-
 // TODO Current types, will be replaced
 type EventValidationFunction = (events: string) => Promise<string>
 type IdExtractionFunction = (event: string) => Promise<string>
@@ -53,3 +51,6 @@ export const getRegistrar = <T, C>(cfg: {
     delete: (id: string) => cfg.dbInstance.delete(id),
     create: cfg.create
   })
+
+
+export { LocalDidMethod } from './jolocomLibIntegration'

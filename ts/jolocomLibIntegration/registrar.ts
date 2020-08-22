@@ -35,6 +35,7 @@ export class LocalRegistrar implements IRegistrar {
   private registrar: ReturnType<typeof getRegistrar>
 
   public constructor(db = createDb()) {
+    //@ts-ignore Update the definition on the lib to return an Identity on encounter
     this.registrar = getRegistrar({
       dbInstance: db,
       create: createFromIcp,
@@ -79,6 +80,7 @@ export class LocalRegistrar implements IRegistrar {
     return false
   }
 
+  //@ts-ignore Update the definition on the lib to return an Identity on encounter
   public async encounter(deltas: string[]) {
     return Identity.fromDidDocument({
       didDocument: DidDocument.fromJSON(await this.registrar.update(deltas)),
