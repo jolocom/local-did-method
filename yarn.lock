@@ -2684,7 +2684,7 @@ jolo-did-resolver@0.2.1:
     jolocom-registry-contract "0.3.0"
     node-fetch "^2.6.0"
 
-jolocom-lib@^5.0.4:
+jolocom-lib@5.0.12:
   version "5.0.12"
   resolved "https://registry.yarnpkg.com/jolocom-lib/-/jolocom-lib-5.0.12.tgz#1ec1916cebdf939631b8caef78a0b2e95aa158b0"
   integrity sha512-Kj37Qz3q7/PYlzskXenkhyIqw5p5qZXEs31Z4UuirlHWm95b35ZCJ6U1saB/CVaouuyCZ62Kre53c3qD5Y6hAw==

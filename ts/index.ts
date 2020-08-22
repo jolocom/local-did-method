@@ -1,6 +1,9 @@
 import { DIDDocument, ParsedDID, Resolver } from "did-resolver";
 import { InternalDb } from "./db";
 export { InternalDb } from './db'
+import { JolocomLib } from 'jolocom-lib'
+
+console.log(JolocomLib)
 
 // TODO Current types, will be replaced
 type EventValidationFunction = (events: string) => Promise<string>
