@@ -38,8 +38,8 @@ describe("Local DID Resolver", () => {
       const con = await getConnection()
       const store = new JolocomTypeormStorage(con)
       const testId = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-      const testDid = `did:un:${testId}`
-      const resolver = new Resolver(getResolver({
+      const testDid = `did:jun:${testId}`
+      const resolver = new Resolver(getResolver('jun')({
         dbInstance: store.eventDB,
         validateEvents
       }));
@@ -62,7 +62,7 @@ describe("Local DID Resolver", () => {
         create: getIcp,
       })
 
-      const resolver = getResolver({
+      const resolver = getResolver('jun')({
         dbInstance: db,
         validateEvents
       })
@@ -79,7 +79,7 @@ describe("Local DID Resolver", () => {
       const testDDO = await validateEvents(JSON.stringify([inceptionEvent]))
 
       const ddo = await new Resolver(resolver)
-        .resolve(`did:un:${await getIdFromEvent(inceptionEvent)}`)
+        .resolve(`did:jun:${await getIdFromEvent(inceptionEvent)}`)
       
       return expect(ddo).toEqual(JSON.parse(testDDO))
     });

@@ -9,8 +9,8 @@ describe("Local DID Resolver", () => {
   describe("getResolver", () => {
     it("It should fail to resolve an unknown local DID", async () => {
       const testDb = createDb()
-      const testDid = 'did:un:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
-      const resolver = new Resolver(getResolver({
+      const testDid = 'did:jun:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+      const resolver = new Resolver(getResolver('jun')({
         dbInstance: testDb,
         validateEvents
       }));
@@ -30,7 +30,7 @@ describe("Local DID Resolver", () => {
         create: getIcp,
       })
 
-      const resolver = getResolver({
+      const resolver = getResolver('jun')({
         dbInstance: db,
         validateEvents
       })
@@ -47,7 +47,7 @@ describe("Local DID Resolver", () => {
       const testDDO = await validateEvents(JSON.stringify([inceptionEvent]))
 
       const ddo = await new Resolver(resolver)
-        .resolve(`did:un:${await getIdFromEvent(inceptionEvent)}`)
+        .resolve(`did:jun:${await getIdFromEvent(inceptionEvent)}`)
       
       return expect(ddo).toEqual(JSON.parse(testDDO))
     });
