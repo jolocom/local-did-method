@@ -1,6 +1,5 @@
 import { DIDDocument, ParsedDID, Resolver } from "did-resolver";
 import { InternalDb } from "./db";
-export { InternalDb } from './db'
 
 // TODO Current types, will be replaced
 type EventValidationFunction = (events: string) => Promise<string>
@@ -45,6 +44,3 @@ export const getRegistrar = <T, C>(cfg: {
     delete: (id: string) => cfg.dbInstance.delete(id),
     create: cfg.create
   })
-
-
-export { LocalDidMethod } from './jolocomLibIntegration'

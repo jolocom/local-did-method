@@ -1,6 +1,6 @@
 {
   "name": "local-resolver-registrar",
-  "version": "0.2.0",
+  "version": "0.3.1",
   "main": "js",
   "types": "js",
   "license": "MIT",
@@ -19,14 +19,13 @@
     "@types/jest": "^24.0.23",
     "did-resolver": "2.0.0",
     "jest": "^24.9.0",
-    "jolocom-lib": "5.0.12",
     "sqlite3": "^5.0.0",
     "ts-jest": "^24.1.0",
     "typeorm": "^0.2.25",
     "typescript": "^3.7.2"
   },
   "peerDependencies": {
-    "jolocom-lib": "5.0.12"
+    "jolocom-lib": "^5.0.26"
   },
   "dependencies": {}
 }
