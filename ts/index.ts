@@ -32,8 +32,10 @@ export const getRegistrar = <T, C>(cfg: {
         const keyEventId = await cfg.getIdFromEvent(events[0])
         const previousEvents = await cfg.dbInstance.read(keyEventId) || []
 
+        const uncommon = events.filter(event => previousEvents.includes(event))
+        
         const document = await cfg.validateEvents(
-          JSON.stringify(previousEvents.concat(events))
+          JSON.stringify(previousEvents.concat(uncommon))
         )
         await cfg.dbInstance.append(keyEventId, events)
         return document

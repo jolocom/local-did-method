@@ -30,7 +30,7 @@ afterEach(async () => {
 })
 
 // Testing against a specific implementation (KERI) of a validation function.
-import { walletUtils, validateEvents, getIdFromEvent, getIcp } from '@jolocom/native-utils-node'
+import { walletUtils, validateEvents, getIdFromEvent, getIcp } from '@jolocom/native-core'
 
 describe("Local DID Resolver", () => {
   describe("getResolver", () => {
@@ -76,10 +76,14 @@ describe("Local DID Resolver", () => {
 
       const res = await registrar.update([inceptionEvent])
 
+      // ensure appending an existing event doesnt fail
+      expect(registrar.update([inceptionEvent])).resolves.toBeTruthy()
+
       const testDDO = await validateEvents(JSON.stringify([inceptionEvent]))
 
-      const ddo = await new Resolver(resolver)
-        .resolve(`did:jun:${await getIdFromEvent(inceptionEvent)}`)
+      const localResolver = new Resolver(resolver)
+
+      const ddo = await localResolver.resolve(`did:jun:${await getIdFromEvent(inceptionEvent)}`)
       
       return expect(ddo).toEqual(JSON.parse(testDDO))
     });

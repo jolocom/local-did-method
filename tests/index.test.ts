@@ -3,7 +3,7 @@ import { Resolver } from "did-resolver";
 import { createDb } from "../ts/db";
 
 // Testing against a specific implementation (KERI) of a validation function.
-import { walletUtils, validateEvents, getIdFromEvent, getIcp } from '@jolocom/native-utils-node'
+import { walletUtils, validateEvents, getIdFromEvent, getIcp } from '@jolocom/native-core'
 
 describe("Local DID Resolver", () => {
   describe("getResolver", () => {
