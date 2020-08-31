@@ -1,6 +1,6 @@
 {
   "name": "local-resolver-registrar",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "main": "js",
   "types": "js",
   "license": "MIT",
