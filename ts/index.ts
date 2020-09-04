@@ -36,7 +36,7 @@ export const getRegistrar = <T, C>(cfg: {
       const document = await cfg.validateEvents(
         JSON.stringify(previousEvents.concat(uncommon))
       )
-      await cfg.dbInstance.append(keyEventId, events)
+      await cfg.dbInstance.append(keyEventId, uncommon)
       return document
     },
     delete: (id: string) => cfg.dbInstance.delete(id),
