@@ -9,7 +9,7 @@ type IdCreationFunction<T, C> = (config: C) => Promise<T>
 export const getResolver = (prefix: string) => (cfg: {
   dbInstance: InternalDb,
   validateEvents: EventValidationFunction,
-}) => ({ 
+}) => ({
     [prefix]: async (did: string, parsed: ParsedDID, _: Resolver): Promise<DIDDocument | null> => {
       const events = await cfg.dbInstance.read(parsed.id)
 
@@ -28,20 +28,16 @@ export const getRegistrar = <T, C>(cfg: {
   create: IdCreationFunction<T, C>
 }) => ({
     update: async (events: string[]) => {
-      try {
-        const keyEventId = await cfg.getIdFromEvent(events[0])
-        const previousEvents = await cfg.dbInstance.read(keyEventId) || []
+      const keyEventId = await cfg.getIdFromEvent(events[0])
+      const previousEvents = await cfg.dbInstance.read(keyEventId) || []
 
-        const uncommon = events.filter(event => previousEvents.includes(event))
-        
-        const document = await cfg.validateEvents(
-          JSON.stringify(previousEvents.concat(uncommon))
-        )
-        await cfg.dbInstance.append(keyEventId, events)
-        return document
-      } catch (err) {
-        return err
-      }
+      const uncommon = events.filter(event => previousEvents.indexOf(event) == -1)
+
+      const document = await cfg.validateEvents(
+        JSON.stringify(previousEvents.concat(uncommon))
+      )
+      await cfg.dbInstance.append(keyEventId, events)
+      return document
     },
     delete: (id: string) => cfg.dbInstance.delete(id),
     create: cfg.create
