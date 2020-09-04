@@ -30,28 +30,26 @@ describe("Local DID Resolver", () => {
         create: getIcp,
       })
 
-      const resolver = getResolver('jun')({
+      const resolver = new Resolver(getResolver('jun')({
         dbInstance: db,
         validateEvents
-      })
+      }))
 
-      let id = "none"
+      let idNone = "none"
       let pass = "pass"
-      let encryptedWallet = await walletUtils.newWallet(id, pass)
-      const icp_data = await registrar.create({encryptedWallet, id, pass})
-      
-      const { inceptionEvent } = icp_data
+      let encryptedWallet = await walletUtils.newWallet(idNone, pass)
+      const icp_data = await registrar.create({encryptedWallet, id: idNone, pass})
+      const { inceptionEvent, id } = icp_data
 
+      // save the event to the DB, and resolve the DID
       await registrar.update([inceptionEvent])
+      const ddo = await resolver.resolve(id)
 
-      const updatedEvents = await db.read(id)
+      // now do it again, resolved DID doc should be unchanged
+      await registrar.update([inceptionEvent])
+      const ddoUpdated = await resolver.resolve(id)
 
-      const testDDO = await validateEvents(JSON.stringify(updatedEvents))
-
-      const ddo = await new Resolver(resolver)
-        .resolve(`did:jun:${await getIdFromEvent(inceptionEvent)}`)
-      
-      return expect(ddo).toEqual(JSON.parse(testDDO))
+      return expect(ddoUpdated).toEqual(ddo)
     });
   });
 });
