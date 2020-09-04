@@ -44,7 +44,9 @@ describe("Local DID Resolver", () => {
 
       await registrar.update([inceptionEvent])
 
-      const testDDO = await validateEvents(JSON.stringify([inceptionEvent]))
+      const updatedEvents = await db.read(id)
+
+      const testDDO = await validateEvents(JSON.stringify(updatedEvents))
 
       const ddo = await new Resolver(resolver)
         .resolve(`did:jun:${await getIdFromEvent(inceptionEvent)}`)
