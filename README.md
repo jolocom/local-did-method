@@ -1,7 +1,25 @@
 # @jolocom/local-resolver-registrar
-This repository includes an implementation for a local, event based resolver / registrar modules. The exported functions are agnostic to the structure of the underlying events, only making assumptions about the algorithm for validation:
+This repository includes an implementation for a local, event based resolver / registrar modules. The exported functions are agnostic to the structure of the underlying events.
 
-- Update: Given a list of events (e.g. a KEL), will use the available event DB to fetch all existing events related to the relevant identifier, append all new **unique** events received, and attempt to validate the new event sequence. If the validation succeeds, the new unique events are appended to the database, and the new resulting DID Document is returned.
-- Delete: Given an identifier (associated with a sequence of events) will attempt to remove all events related to the identifier from the event DB.
+## Usage examples
+In combination with the [DIF DID-Resolver](https://github.com/decentralized-identity/did-resolver):
 
-Repository containing logic for resolving / registering local identities a resolver / registrar implementation for a local, event based DID method.
+```typescript
+import { getResolver, createSimpleEventDb } from "@jolocom/local-resolver-registrar";
+import { Resolver } from "did-resolver";
+import { validateEvents } from '@jolocom/native-core'
+
+const dbInstance = createSimpleEventDb()
+
+const configuredResolver = getResolver('local')({
+  validateEvents,
+  dbInstance
+})
+
+const resolver = new Resolver(getResolver());
+const didDocument = await resolver.resolve(did);
+
+// didDocument now contains the corresponding Did Document in JSON form.
+```
+
+For an example of using this module with a storage backend other than the simple event DB provided within, check out the [this test example](./tests/sdk.test.ts)

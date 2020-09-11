@@ -20,6 +20,15 @@ export const getResolver = (prefix: string) => (cfg: {
   dbInstance: InternalDb,
   validateEvents: EventValidationFunction,
 }) => ({
+  /**
+   * Given a [prefix] DID, will attempt to find all associated events in the local database,
+   * validate them, and return the corresponding DID Document
+   * @param did - the did to resolve
+   * @param parsed - a object containing the parsed DID, as provided by the "did-resolver" module
+   * @param didResolver - instance of {@link Resolver}, populated by the "did-resolver" module
+   * @returns DID Document - Did Document for the corresponding DID in JSON form
+   */
+
     [prefix]: async (did: string, parsed: ParsedDID, _: Resolver): Promise<DIDDocument | null> => {
       const events = await cfg.dbInstance.read(parsed.id)
 
@@ -85,3 +94,11 @@ export const getRegistrar = <T, C>(cfg: {
      */
     create: cfg.create
   })
+
+/**
+ * A DB interface compatible with the interface required by the local registrar / resolver.
+ * The simpleEventDb offers the interface by wrapping a JS object.
+ * More roboust / persistent alternatives are strongly recommended for deployed versions.
+ */
+
+export { createDb as createSimpleEventDb }  from './db'
