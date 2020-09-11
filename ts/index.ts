@@ -1,7 +1,7 @@
 import { DIDDocument, ParsedDID, Resolver } from "did-resolver";
 import { InternalDb } from "./db";
 
-// TODO Current types, will be replaced
+// TODO Provisional types, will be replaced
 type EventValidationFunction = (events: string) => Promise<string>
 type IdExtractionFunction = (event: string) => Promise<string>
 type IdCreationFunction<T, C> = (config: C) => Promise<T>
