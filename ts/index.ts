@@ -9,7 +9,7 @@ type IdCreationFunction<T, C> = (config: C) => Promise<T>
 export const getResolver = (prefix: string) => (cfg: {
   dbInstance: InternalDb,
   validateEvents: EventValidationFunction,
-}) => ({ 
+}) => ({
     [prefix]: async (did: string, parsed: ParsedDID, _: Resolver): Promise<DIDDocument | null> => {
       const events = await cfg.dbInstance.read(parsed.id)
 
