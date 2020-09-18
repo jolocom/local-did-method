@@ -20,7 +20,7 @@
     "did-resolver": "2.0.0",
     "jest": "^24.9.0",
     "jolocom-lib": "^5.1.0-rc3",
-    "sqlite3": "^5.0.0",
+    "sqlite3": "^4",
     "ts-jest": "^24.1.0",
     "typeorm": "^0.2.25",
     "typescript": "^3.7.2"
