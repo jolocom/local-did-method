@@ -14,7 +14,7 @@ export const getResolver = (prefix: string) => (cfg: {
       const events = await cfg.dbInstance.read(parsed.id)
 
       if (events && events.length) {
-        return JSON.parse(await cfg.validateEvents(JSON.stringify(events)))
+        return JSON.parse(await cfg.validateEvents(events))
       }
 
       return null
@@ -27,18 +27,24 @@ export const getRegistrar = <T, C>(cfg: {
   getIdFromEvent: IdExtractionFunction,
   create: IdCreationFunction<T, C>
 }) => ({
-    update: async (events: string[]) => {
+    update: async (events: string) => {
       try {
         const keyEventId = await cfg.getIdFromEvent(events[0])
-        const previousEvents = await cfg.dbInstance.read(keyEventId) || []
+        const previousEvents = await cfg.dbInstance.read(keyEventId) || ""
 
-        const uncommon = events.filter(event => previousEvents.includes(event))
+        // TODO
+        // ideally there should be a function to perform deduplication here and handle correct append logic
+        // should handle combining event streams securely
+        // (oldEvents: string, newEvents: string) => Promise<string>
         
-        const document = await cfg.validateEvents(
-          JSON.stringify(previousEvents.concat(uncommon))
-        )
-        await cfg.dbInstance.append(keyEventId, events)
-        return document
+        // HACK this will always assume that 'events' is a FULL KEL, starting FROM INCEPTION
+        if (events.length > previousEvents.length) {
+          await cfg.dbInstance.delete(keyEventId)
+          await cfg.dbInstance.append(keyEventId, events)
+          return await cfg.validateEvents(events)
+        } else {
+          return await cfg.validateEvents(previousEvents)
+        }
       } catch (err) {
         return err
       }
