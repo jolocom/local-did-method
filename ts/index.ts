@@ -29,7 +29,7 @@ export const getRegistrar = <T, C>(cfg: {
 }) => ({
     update: async (events: string) => {
       try {
-        const keyEventId = await cfg.getIdFromEvent(events[0])
+        const keyEventId = await cfg.getIdFromEvent(events)
         const previousEvents = await cfg.dbInstance.read(keyEventId) || ""
 
         // TODO
