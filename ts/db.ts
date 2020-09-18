@@ -2,7 +2,11 @@ interface DbState {
   [did: string]: string
 }
 
-// SMALL MOCK IMPLEMENTATION, this will mutate the initialState
+/**
+ * Mostly used for testing / demo / dev purposes.
+ * A very simple Event DB for persisting / retrieving events
+ */
+
 export const createDb = (
   initialState: DbState = {}
 ): InternalDb => ({
