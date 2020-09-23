@@ -42,11 +42,11 @@ describe("Local DID Resolver", () => {
       const { inceptionEvent, id } = icp_data
 
       // save the event to the DB, and resolve the DID
-      await registrar.update([inceptionEvent])
+      await registrar.update(inceptionEvent)
       const ddo = await resolver.resolve(id)
 
       // now do it again, resolved DID doc should be unchanged
-      await registrar.update([inceptionEvent])
+      await registrar.update(inceptionEvent)
       const ddoUpdated = await resolver.resolve(id)
 
       return expect(ddoUpdated).toEqual(ddo)

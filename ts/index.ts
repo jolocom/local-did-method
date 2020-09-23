@@ -33,7 +33,7 @@ export const getResolver = (prefix: string) => (cfg: {
       const events = await cfg.dbInstance.read(parsed.id)
 
       if (events && events.length) {
-        return JSON.parse(await cfg.validateEvents(JSON.stringify(events)))
+        return JSON.parse(await cfg.validateEvents(events))
       }
 
       return null
@@ -57,26 +57,27 @@ export const getRegistrar = <T, C>(cfg: {
   getIdFromEvent: IdExtractionFunction,
   create: IdCreationFunction<T, C>
 }) => ({
-    /**
-     * Updates the local DB / event list with new events, given the new events are valid / can be applied.
-     * Before being applied / validated, the new events are concatenated with existing events (queried from the DB using the event ID),
-     * with duplicate events filtered out, and the resulting list passed to the aforementioned `validateEvents` function.
-     * If validation succeeds, the new unique events are appended to the Event DB and the resulting DID Document is returned.
-     *
-     * @param events - list of events, e.g. shared as part of a resolution protocol
-     * @returns didDocument - the document resulting from applying all events.
-     */
-    update: async (events: string[]) => {
-      const keyEventId = await cfg.getIdFromEvent(events[0])
-      const previousEvents = await cfg.dbInstance.read(keyEventId) || []
+    update: async (events: string) => {
+      try {
+        const keyEventId = await cfg.getIdFromEvent(events)
+        const previousEvents = await cfg.dbInstance.read(keyEventId) || ""
 
-      const uncommon = events.filter(event => previousEvents.indexOf(event) == -1)
-
-      const document = await cfg.validateEvents(
-        JSON.stringify(previousEvents.concat(uncommon))
-      )
-      await cfg.dbInstance.append(keyEventId, uncommon)
-      return document
+        // TODO
+        // ideally there should be a function to perform deduplication here and handle correct append logic
+        // should handle combining event streams securely
+        // (oldEvents: string, newEvents: string) => Promise<string>
+        
+        // HACK this will always assume that 'events' is a FULL KEL, starting FROM INCEPTION
+        if (events.length > previousEvents.length) {
+          await cfg.dbInstance.delete(keyEventId)
+          await cfg.dbInstance.append(keyEventId, events)
+          return await cfg.validateEvents(events)
+        } else {
+          return await cfg.validateEvents(previousEvents)
+        }
+      } catch (err) {
+        return err
+      }
     },
 
     /**

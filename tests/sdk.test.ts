@@ -74,12 +74,12 @@ describe("Local DID Resolver", () => {
       
       const { inceptionEvent } = icp_data
 
-      const res = await registrar.update([inceptionEvent])
+      const res = await registrar.update(inceptionEvent)
 
       // ensure appending an existing event doesnt fail
-      expect(registrar.update([inceptionEvent])).resolves.toBeTruthy()
+      expect(registrar.update(inceptionEvent)).resolves.toBeTruthy()
 
-      const testDDO = await validateEvents(JSON.stringify([inceptionEvent]))
+      const testDDO = await validateEvents(inceptionEvent)
 
       const localResolver = new Resolver(resolver)
 
