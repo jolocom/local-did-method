@@ -1,6 +1,6 @@
 {
   "name": "@jolocom/local-resolver-registrar",
-  "version": "1.0.0-rc0",
+  "version": "1.0.0-rc1",
   "main": "js",
   "types": "js",
   "license": "MIT",
